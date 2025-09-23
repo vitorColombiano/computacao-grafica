@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenho com Retas e Triângulos</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        #container {
+            display: flex;
+            gap: 20px;
+        }
+        canvas {
+            border: 2px solid #333;
+            background-color: white;
+            cursor: crosshair;
+        }
+        #controls {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-width: 300px;
+            height: fit-content;
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        .control-group h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .button-group {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            background-color: #f8f8f8;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #e8e8e8;
+        }
+        button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .mode-indicator {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .mode-line { background-color: #e3f2fd; color: #1976d2; }
+        .mode-triangle { background-color: #f3e5f5; color: #7b1fa2; }
+        .mode-color { background-color: #e8f5e8; color: #388e3c; }
+        .mode-thickness { background-color: #fff3e0; color: #f57c00; }
+        .color-preview {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000;
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .instructions {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebGL - Desenho Interativo</h1>
+    <div id="container">
+        <canvas id="webgl-canvas" width="800" height="600"></canvas>
+        <div id="controls">
+            <div id="mode-indicator" class="mode-indicator mode-line">
+                Modo: Desenhar Retas
+            </div>
+            
+            <div class="control-group">
+                <h3>Ferramentas</h3>
+                <div class="button-group">
+                    <button id="line-mode" class="active">Retas</button>
+                    <button id="triangle-mode">Triângulos</button>
+                    <button id="clear-canvas">Limpar Tela</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Cor Atual</h3>
+                <div>
+                    Cor: <span id="current-color-name">Preto</span>
+                    <span id="color-preview" class="color-preview" style="background-color: black;"></span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Espessura Atual</h3>
+                <div>Espessura: <span id="current-thickness">1</span>px</div>
+            </div>
+
+            <div class="instructions">
+                <h3>Instruções:</h3>
+                <ul>
+                    <li><strong>Desenhar Retas:</strong> Clique em dois pontos</li>
+                    <li><strong>Desenhar Triângulos:</strong> Clique em três pontos</li>
+                    <li><strong>Tecla 'K':</strong> Ativar modo mudança de cor</li>
+                    <li><strong>Tecla 'E':</strong> Ativar modo mudança de espessura</li>
+                    <li><strong>Teclas 0-9:</strong> Selecionar cor (modo cor ativo)</li>
+                    <li><strong>Teclas 1-9:</strong> Selecionar espessura (modo espessura ativo)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
