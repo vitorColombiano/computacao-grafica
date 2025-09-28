@@ -177,12 +177,12 @@ function main() {
     animate();
 }
 window.addEventListener('keydown', function(event){
-    if (event.key === 'd') {
-        posX += 0.1;
-    }
-    if (event.key === 'a') {
-        posX -= 0.1;
-    }
+  if (event.key === 'ArrowRight') {
+    posX += 0.1;
+  }
+  if (event.key === 'ArrowLeft') {
+    posX -= 0.1;
+  }
 });
 // Start the application when the page loads
 window.addEventListener('load', main);
