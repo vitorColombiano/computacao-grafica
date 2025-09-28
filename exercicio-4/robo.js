@@ -1,245 +1,167 @@
+let posDir = 1;
+let posEsq = 1;
+let posDirMao = 0;
+let posEsqMao = 0;
+
+// Variáveis para piscar
+let olhosFechados = false;
+let tempoUltimoPiscar = Date.now();
+const intervaloPiscar = 2000; // pisca a cada 2 segundos
+const duracaoPiscar = 200;    // duração do piscar (ms)
+
 function DesenharRobo(gl, program, angulo) {
-    // Limpar canvas
     gl.clearColor(0.8, 0.8, 0.8, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-
     //=============================== LINHAS ================================
-
-    let linhaVertices = [];     //[xVertice1, yVertice1, xVertice2, yVertice2]
-    let linhaCores = [];        // rgb
-
-    //Antena esquerda
+    let linhaVertices = [];
+    let linhaCores = [];
     linhaVertices.push(-0.1, 0.7, -0.1, 0.8);
-    linhaCores.push(
-        1.0, 0.0, 0.0,          // vermelho para vértice 1
-        1.0, 0.0, 0.0           // vermelho para vértice 2
-    );
-
-    //Antena direita
+    linhaCores.push(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
     linhaVertices.push(0.1, 0.7, 0.1, 0.8);
-    linhaCores.push(
-        1.0, 0.0, 0.0,          // vermelho para vértice 1
-        1.0, 0.0, 0.0           // vermelho para vértice 2
-    );
-
+    linhaCores.push(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
     WebGLLib.createLine(gl, linhaVertices, linhaCores, program);
 
-    //=======================================================================
-    
     //============================== TRIANGULOS =============================
-    
-    let trianguloVertices = []; //[x1, y1, x2, y2, x3, y3]
-    let trianguloCores = [];    //rgb para cada par x e y
-
-    //Pé esquerdo
-    trianguloVertices.push(
-        -0.15, -0.6,                
-        -0.1, -0.6,  
-        -0.2,  -0.7
-    );
-    trianguloCores.push(
-        0.0, 0.0, 1.0,          //Azul
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0
-    );
-
-    //Pé direito
-    trianguloVertices.push(
-        0.1, -0.6,
-        0.15, -0.6,
-        0.2,  -0.7
-    );
-    trianguloCores.push(
-        0.0, 0.0, 1.0,          //Azul
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0
-    );
-
+    let trianguloVertices = [];
+    let trianguloCores = [];
+    trianguloVertices.push(-0.15, -0.6, -0.1, -0.6, -0.2, -0.7);
+    trianguloCores.push(0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0);
+    trianguloVertices.push(0.1, -0.6, 0.15, -0.6, 0.2, -0.7);
+    trianguloCores.push(0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0);
     WebGLLib.createTriangule(gl, trianguloVertices, trianguloCores, program);
 
-    //=======================================================================
-
     //============================== QUADRADOS ==============================
-    
-    let quadradoVertices = [];  //[xVerticeInferiorEsquerda, yVerticeInferiorEsquerda, largura, altura]
+    let quadradoVertices = [];
     let quadradoCores = [];
-
-    //Corpo
-    quadradoVertices.push(-0.3, -0.3, 0.6, 0.6);    
+    quadradoVertices.push(-0.3, -0.3, 0.6, 0.6);
     quadradoCores.push(
-        0.41, 0.41, 0.41,       //Cinza: r, g, b (105/255 ≈ 0.41)
-        0.41, 0.41, 0.41,
-        0.41, 0.41, 0.41,
-        0.41, 0.41, 0.41,
-        0.41, 0.41, 0.41,
-        0.41, 0.41, 0.41
+        0.41, 0.41, 0.41, 0.41, 0.41, 0.41,
+        0.41, 0.41, 0.41, 0.41, 0.41, 0.41,
+        0.41, 0.41, 0.41, 0.41, 0.41, 0.41
     );
-    
-    //Cabeça
-    quadradoVertices.push(-0.15, 0.4, 0.3, 0.3);    
+    quadradoVertices.push(-0.15, 0.4, 0.3, 0.3);
     quadradoCores.push(
-        0.41, 0.41, 0.41,       //Cinza
-        0.41, 0.41, 0.41,
-        0.41, 0.41, 0.41,
-        0.41, 0.41, 0.41,
-        0.41, 0.41, 0.41,
-        0.41, 0.41, 0.41
+        0.41, 0.41, 0.41, 0.41, 0.41, 0.41,
+        0.41, 0.41, 0.41, 0.41, 0.41, 0.41,
+        0.41, 0.41, 0.41, 0.41, 0.41, 0.41
     );
-
-    //Pescoço
-    quadradoVertices.push(-0.015, 0.3, 0.03, 0.1);    
+    quadradoVertices.push(-0.015, 0.3, 0.03, 0.1);
     quadradoCores.push(
-        1.0, 0.0, 0.0,          //Vermelho
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0
     );
-
-    //Braço direito
-    quadradoVertices.push(0.3, 0.1, 0.25, 0.05);    
+    quadradoVertices.push(0.3, 0.1, 0.25, 0.05);
     quadradoCores.push(
-        1.0, 0.0, 0.0,          //Vermelho
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0
     );
-
-    //Braço direito (Antebraço)
-    quadradoVertices.push(0.5, -0.1 * posDir, 0.05, 0.2);    
+    quadradoVertices.push(0.5, -0.1 * posDir, 0.05, 0.2);
     quadradoCores.push(
-        1.0, 0.0, 0.0,          //Vermelho
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0
     );
-
-    //Braço esquerdo
-    quadradoVertices.push(-0.55, 0.1, 0.25, 0.05);    
+    quadradoVertices.push(-0.55, 0.1, 0.25, 0.05);
     quadradoCores.push(
-        1.0, 0.0, 0.0,          //Vermelho
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0
     );
-
-    //Braço esquerdo (Antebraço)
-    quadradoVertices.push(-0.55, -0.1 * posEsq, 0.05, 0.2);    
+    quadradoVertices.push(-0.55, -0.1 * posEsq, 0.05, 0.2);
     quadradoCores.push(
-        1.0, 0.0, 0.0,          //Vermelho
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0
     );
-
-    //Perna esquerda
-    quadradoVertices.push(-0.15, -0.6, 0.05, 0.3);    
+    quadradoVertices.push(-0.15, -0.6, 0.05, 0.3);
     quadradoCores.push(
-        1.0, 0.0, 0.0,          //Vermelho
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0
     );
-
-    //Perna direita
-    quadradoVertices.push(0.1, -0.6, 0.05, 0.3);    
+    quadradoVertices.push(0.1, -0.6, 0.05, 0.3);
     quadradoCores.push(
-        1.0, 0.0, 0.0,          //Vermelho
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 0.0
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0, 0.0
     );
-    
-    //Boca
-    quadradoVertices.push(-0.1, 0.45, 0.2, 0.015);    
+    quadradoVertices.push(-0.1, 0.45, 0.2, 0.015);
     quadradoCores.push(
-        0.0, 0.0, 0.0,          //Preto
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0
     );
-    
-    //Barriga
-    quadradoVertices.push(-0.15, -0.15, 0.3, 0.3);    
+    quadradoVertices.push(-0.15, -0.15, 0.3, 0.3);
     quadradoCores.push(
-        1.0, 0.0, 0.0,          //Vermelho
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 1.0           //Azul
+        1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0, 0.0, 0.0
     );
-
     WebGLLib.createSquare(gl, quadradoVertices, quadradoCores, program);
 
-    //=======================================================================
-
     //============================== CIRCULOS ===============================
-
-    let circuloVertices = [];   //[centroX, centroY, raio]
+    let circuloVertices = [];
     let circuloCores = [];
 
-    //Mão direita
-    circuloVertices = [0.525, (-0.12 * posDir) + posDirMao, 0.05]; 
-    circuloCores = [0.0, 0.0, 1.0]; //Verde
+    // Mão direita
+    circuloVertices = [0.525, (-0.12 * posDir) + posDirMao, 0.05];
+    circuloCores = [0.0, 0.0, 1.0];
     WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
 
-    //Circulo preto (para dar a impressão de garra na mão)
+    // Circulo preto (garra)
     circuloVertices = [0.525, (-0.16 * posDir) + posDirMao, 0.05];
-    circuloCores = [0.8, 0.8, 0.8]; //Preto
+    circuloCores = [0.8, 0.8, 0.8];
     WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
 
-    //Mão esquerda
+    // Mão esquerda
     circuloVertices = [-0.525, (-0.12 * posEsq) + posEsqMao, 0.05];
-    circuloCores = [0.0, 0.0, 1.0]; //Azul
+    circuloCores = [0.0, 0.0, 1.0];
     WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
 
-    //Circulo preto (para dar a impressão de garra na mão)
+    // Circulo preto (garra)
     circuloVertices = [-0.525, (-0.16 * posEsq) + posEsqMao, 0.05];
-    circuloCores = [0.8, 0.8, 0.8]; //Preto
+    circuloCores = [0.8, 0.8, 0.8];
     WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
 
-    //Olho esquerdo
-    circuloVertices = [-0.075, 0.6, 0.03];
-    circuloCores = [0.0, 0.0, 1.0]; //Azul
-    WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
+    // Olhos (piscar)
+    if (!olhosFechados) {
+        // Olho esquerdo aberto
+        circuloVertices = [-0.075, 0.6, 0.03];
+        circuloCores = [0.0, 0.0, 1.0];
+        WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
 
-    //Olho esquerdo (pupíla)
-    circuloVertices = [-0.075, 0.6, 0.01];
-    circuloCores = [0.0, 0.0, 0.0]; //Preto
-    WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
+        // Pupila esquerda
+        circuloVertices = [-0.075, 0.6, 0.01];
+        circuloCores = [0.0, 0.0, 0.0];
+        WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
 
-    //Olho direito
-    circuloVertices = [0.075, 0.6, 0.03];
-    circuloCores = [0.0, 0.0, 1.0]; //Azul
-    WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
+        // Olho direito aberto
+        circuloVertices = [0.075, 0.6, 0.03];
+        circuloCores = [0.0, 0.0, 1.0];
+        WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
 
-    //Olho direito (pupíla)
-    circuloVertices = [0.075, 0.6, 0.01];
-    circuloCores = [0.0, 0.0, 0.0]; //Preto
-    WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
+        // Pupila direita
+        circuloVertices = [0.075, 0.6, 0.01];
+        circuloCores = [0.0, 0.0, 0.0];
+        WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
+    } else {
+        // Olhos fechados (círculo preto)
+        circuloVertices = [-0.075, 0.6, 0.03];
+        circuloCores = [0.0, 0.0, 0.0];
+        WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
 
-    //Círculo do peito
-    circuloVertices = [-0.0, 0.0, 0.1];
-    circuloCores = [0.41, 0.41, 0.41]; //Cinza
+        circuloVertices = [0.075, 0.6, 0.03];
+        circuloCores = [0.0, 0.0, 0.0];
+        WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
+    }
+
+    // Círculo do peito
+    circuloVertices = [0.0, 0.0, 0.1];
+    circuloCores = [0.41, 0.41, 0.41];
     WebGLLib.createCircle(gl, circuloVertices, circuloCores, program);
-    
 }
 
 function main() {
@@ -251,15 +173,12 @@ function main() {
     }
     const vertexShader = WebGLLib.createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
     const fragmentShader = WebGLLib.createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-    
-    // Criar programa usando a biblioteca
     const program = WebGLLib.createProgram(gl, vertexShader, fragmentShader);
 
     if (!vertexShader || !fragmentShader) {
         console.log('Erro ao criar shaders');
         return;
-    }   
-
+    }
     if (!program) {
         console.log('Erro ao criar programa');
         return;
@@ -267,16 +186,22 @@ function main() {
     let angulo = 0;
     function animate() {
         angulo += 0.01;
+
+        // Controle do piscar
+        const agora = Date.now();
+        if (!olhosFechados && agora - tempoUltimoPiscar > intervaloPiscar) {
+            olhosFechados = true;
+            setTimeout(() => {
+                olhosFechados = false;
+                tempoUltimoPiscar = Date.now();
+            }, duracaoPiscar);
+        }
+
         DesenharRobo(gl, program, angulo);
         requestAnimationFrame(animate);
     }
     animate();
 }
-
-let posDir = 1;
-let posEsq = 1;
-let posDirMao = 0;
-let posEsqMao = 0;
 
 window.addEventListener('keydown', function(event){
     if (event.key === 'd') {
@@ -289,5 +214,4 @@ window.addEventListener('keydown', function(event){
     }
 });
 
-// Start the application when the page loads
 window.addEventListener('load', main);
