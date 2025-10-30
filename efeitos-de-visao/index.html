@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efeitos de Visão - Diferentes Configurações de Câmera</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Efeitos de Visão - Diferentes Configurações de Câmera</h1>
+
+        <div class="info">
+            <p><strong>Objeto:</strong> Flor Animada com Rotação</p>
+            <p><strong>Implementação:</strong> Diferentes tipos de projeção e visualização de câmera</p>
+        </div>
+
+        <div class="controls">
+            <h3>Controles de Teclado:</h3>
+            <div class="control-row">
+                <span class="key">1</span> - Vista Frontal (Front View)
+            </div>
+            <div class="control-row">
+                <span class="key">2</span> - Vista Superior (Top View)
+            </div>
+            <div class="control-row">
+                <span class="key">3</span> - Vista Lateral Direita (Right Side View)
+            </div>
+            <div class="control-row">
+                <span class="key">4</span> - Vista Isométrica (Isometric View)
+            </div>
+            <div class="control-row">
+                <span class="key">5</span> - Vista Perspectiva (Perspective View)
+            </div>
+            <div class="control-row">
+                <span class="key">6</span> - Vista Ortográfica (Orthographic View)
+            </div>
+            <div class="control-row">
+                <span class="key">A</span> - Ativar/Desativar Animação Automática
+            </div>
+            <div class="control-row">
+                <span class="key">R</span> - Reset para Vista Padrão
+            </div>
+            <div class="control-row">
+                <span class="key">+/-</span> - Zoom In/Out
+            </div>
+        </div>
+
+        <canvas id="glCanvas" width="800" height="600"></canvas>
+
+        <div class="view-info" id="viewInfo">
+            Vista Atual: Frontal (Front View)
+        </div>
+
+        <div class="animation-controls">
+            <button id="animationBtn" onclick="toggleAnimation()">Pausar Animação</button>
+            <button onclick="resetView()">Reset Vista</button>
+            <button onclick="nextView()">Próxima Vista</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
